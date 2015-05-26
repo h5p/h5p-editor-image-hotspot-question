@@ -1,0 +1,140 @@
+.h5peditor-dragquestion-wrapper {
+  position: relative;
+}
+
+.h5peditor-dragnbar {
+  font-size: 1em;
+  overflow: hidden;
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-bottom: none;
+}
+
+.h5p-dragnbar-ul {
+  float: left;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.h5p-dragnbar-li {
+  float: left;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.h5p-dragnbar-a {
+  width: 1em;
+  line-height: 1.5em;
+  text-align: center;
+  background: linear-gradient(to bottom,#fff 0,#f2f2f2 100%);
+  border: 1px solid #ccc;
+  border-radius: 0.25em;
+  margin: 0.25em;
+  display: block;
+  padding: 0.25em 0.75em;
+  color: #333;
+}
+
+.h5p-dragnbar-a:hover {
+  text-decoration: none;
+  border-color: #999;
+}
+
+.h5p-dragnbar-a:link, .h5p-dragnbar-a:visited  {
+  color: #555;
+}
+.h5p-dragnbar-a:before {
+  font-family: 'H5PFontAwesome4';
+  content: "?";
+}
+.h5p-dragnbar-a:hover {
+  text-decoration: none;
+}
+.h5p-dragnbar-advancedtext-button:before {
+  font-size: 1.125em;
+  font-weight: bold;
+  content: "T";
+}
+.h5p-dragnbar-image-button:before {
+  content: "\f03e";
+}
+.h5p-dragnbar-dropzone-button:before {
+  content: "\f140";
+}
+
+.h5p-dq-element {
+  height: 40px;
+  width: 40px;
+  border: 1px solid white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.h5p-dq-element.circle {
+  border-radius: 50%;
+}
+
+.image-hotspot-gui {
+  position: relative;
+  display: block;
+  display: inline-block;
+}
+
+.image-hotspot-dnb-wrapper {
+  display: block;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+}
+
+.h5peditor-fluid-dialog {
+  display: inline-block;
+  background: #fff;
+  margin: 1em;
+  padding: 1em 0.5em;
+  z-index: 1;
+  border: 1px solid #000;
+}
+
+.h5peditor-fluid-dialog.outside-side {
+  margin: 0 1em;
+  vertical-align: top;
+}
+
+.h5peditor-fluid-dialog.outside-underneath {
+  margin: 1em 0;
+}
+
+.h5peditor-fluid-dialog.inside {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 400px;
+  box-shadow: 0px 0px 2px 1px #ccc;
+}
+
+.h5peditor-fluid-dialog.hidden {
+  display: none;
+}
+
+.gui-wrapper {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.h5p-image-hotspot-question-editor.no-image > *:not(.error-message) {
+  display: none;
+}
+
+.h5p-image-hotspot-question-editor.no-image .error-message {
+  display: block;
+  padding: 1em;
+}
+
+.h5p-image-hotspot-question-editor .error-message {
+  display: none;
+}

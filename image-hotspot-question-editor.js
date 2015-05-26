@@ -98,6 +98,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       ' <div class="error-message">' + 'You have not selected an image.' + '</div>' +
       ' <div class="task-description"></div>' +
       ' <div class="gui-wrapper">' +
+      '   <div class="disabling-overlay hidden"></div>' +
       '   <div class="image-hotspot-dnb-wrapper"></div>' +
       '   <div class="image-hotspot-gui"></div>' +
       ' </div>' +
@@ -108,6 +109,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.$editor = $(html);
     this.$taskDescription = $('.task-description', this.$editor);
     this.$guiWrapper = $('.gui-wrapper', this.$editor);
+    this.$disablingOverlay = $('.disabling-overlay', this.$editor);
     this.$gui = $('.image-hotspot-gui', this.$editor);
     this.$dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
     this.$noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
@@ -116,6 +118,11 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.createToolbar();
     this.createDialog();
     this.createHotspots();
+
+    // Disable actions while hotspot dialog is open
+    this.$disablingOverlay.click(function () {
+      return false;
+    });
 
     // Create semantics
     H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, this.$taskDescription, this);
@@ -213,6 +220,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
             self.hideDialog();
           }
 
+          // Set x and y to 50% of width and height.
           self.editElement(self.elements[id], hotspotParams.computedSettings.x, hotspotParams.computedSettings.y);
           self.toolbar.newElement = false;
         }, 0);
@@ -268,10 +276,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
             feedbackText: ''
           },
           computedSettings: {
-            x: '50%',
-            y: '50%',
-            width: '40px',
-            height: '40px',
+            x: 50,
+            y: 50,
+            width: (40 * 100 / self.$gui.width()),
+            height: (40 * 100 / self.$gui.height()),
             figure: figure
           }
         });
@@ -378,7 +386,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    *
    * @param {Object} semantics
    * @param {Object} params
-   * @returns {{$form: jQuery, children:}}
+   * @returns {Object}
    */
   ImageHotspotQuestionEditor.prototype.generateForm = function (semantics, params) {
     var $form = $('<div></div>');
@@ -407,6 +415,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     if (this.dialogOpen) {
       return;
     }
+
+    this.$disablingOverlay.removeClass('hidden');
 
     this.dialogOpen = true;
 
@@ -467,8 +477,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
       // Position dialog inside image
       this.$dialog.css({
-        left: xPos,
-        top: yPos
+        left: xPos + 'px',
+        top: yPos + 'px'
       }).addClass('inside')
         .appendTo(this.$gui);
     }
@@ -485,6 +495,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    */
   ImageHotspotQuestionEditor.prototype.hideDialog = function () {
     this.$currentForm.detach();
+    this.$disablingOverlay.addClass('hidden');
     this.dialogOpen = false;
     this.$dialog.detach()
       .addClass('hidden')

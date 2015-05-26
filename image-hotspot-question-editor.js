@@ -19,9 +19,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     // Set default params
     if (params === undefined) {
       params = {
-        taskDescription: {},
+        taskDescription: '',
         hotspot: [],
-        noneSelectedFeedback: {}
+        noneSelectedFeedback: ''
       };
       setValue(field, params);
     }
@@ -30,7 +30,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.parent = parent;
     this.params = params;
     this.elements = [];
-    this.buttonTypes = [RECTANGLE, CIRCLE];
+    this.buttonTypes = [CIRCLE, RECTANGLE];
     this.dialogOpen = false;
 
     // Semantics that will used to generate forms
@@ -199,6 +199,25 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       hotspotParams.computedSettings.x = x;
       hotspotParams.computedSettings.y = y;
     };
+
+    this.toolbar.dnd.releaseCallback = function () {
+      if (self.toolbar.newElement) {
+        var id = self.toolbar.dnd.$element.data('id');
+        var hotspotParams = self.params.hotspot[id];
+
+        // Make sure stop moving callback is run first to get final mouse positions.
+        setTimeout(function () {
+
+          // Close open dialog
+          if (self.dialogOpen) {
+            self.hideDialog();
+          }
+
+          self.editElement(self.elements[id], hotspotParams.computedSettings.x, hotspotParams.computedSettings.y);
+          self.toolbar.newElement = false;
+        }, 0);
+      }
+    };
   };
 
   /**
@@ -240,7 +259,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     return {
       id: figure,
-      title: figure,
+      title: 'Create ' + figure,
       createElement: function () {
         // Push default parameters
         self.params.hotspot.push({
@@ -287,7 +306,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       })
       .data('id', index)
       .dblclick(function (mouseEvent) {
-        self.editElement(element, mouseEvent);
+        self.editElement(element, mouseEvent.offsetX, mouseEvent.offsetY);
       });
 
     // Make it possible to focus and move element
@@ -320,27 +339,23 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Object} element
    * @returns {undefined}
    */
-  ImageHotspotQuestionEditor.prototype.editElement = function (element, mouseEvent) {
+  ImageHotspotQuestionEditor.prototype.editElement = function (element, elementPosX, elementPosY) {
     var self = this;
     var id = element.$element.data('id');
 
     this.doneCallback = function () {
       // Validate form
       var valid = true;
-      for (var i = 0; i < element.children.length; i++) {
-        if (element.children[i].validate() === false) {
+      element.children.forEach(function (child) {
+        if (child.validate() === false) {
           valid = false;
-          break;
         }
-      }
-      if (!valid) {
-        return false;
-      }
+      });
+
+      return valid;
     };
 
     this.removeCallback = function () {
-      var i, j, ce;
-
       // Remove element form
       H5PEditor.removeChildren(element.children);
 
@@ -350,12 +365,12 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       self.params.hotspot.splice(id, 1);
 
       // Change data index for "all" elements
-      for (i = id; i < self.elements.length; i++) {
-        self.elements[i].$element.data('id', i);
-      }
+      self.elements.forEach(function (element, index) {
+        element.$element.data('id', index);
+      });
     };
 
-    this.showDialog(element.$form, element, mouseEvent);
+    this.showDialog(element.$form, element, elementPosX, elementPosY);
   };
 
   /**
@@ -363,7 +378,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    *
    * @param {Object} semantics
    * @param {Object} params
-   * @returns {_L8.C.prototype.generateElementForm.Anonym$2}
+   * @returns {{$form: jQuery, children:}}
    */
   ImageHotspotQuestionEditor.prototype.generateForm = function (semantics, params) {
     var $form = $('<div></div>');
@@ -385,9 +400,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {jQuery} $form
    * @returns {undefined}
    */
-  ImageHotspotQuestionEditor.prototype.showDialog = function ($form, element, mouseEvent) {
+  ImageHotspotQuestionEditor.prototype.showDialog = function ($form, element, dialogPosX, dialogPosY) {
     // Threshold for placing dialog on side of image
-    var placeSideBySideThreshold = 300;
     var roomForDialog = this.$editor.width() - this.$guiWrapper.width();
 
     if (this.dialogOpen) {
@@ -409,13 +423,13 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     $tmp.remove();
 
     // Place dialog on side, underneath or inside image
-    if (roomForDialog >= placeSideBySideThreshold) {
+    if (roomForDialog >= dialogWidth + 20) {
 
       // Append dialog to gui wrapper
       this.$dialog.addClass('outside-side')
         .insertAfter(this.$guiWrapper);
 
-    } else if (this.$gui.height() < (dialogHeight + 50)) {
+    } else if (this.$gui.height() < (dialogHeight + 20)) {
 
       // Put dialog under picture if small height
       this.$dialog.addClass('outside-underneath')
@@ -423,8 +437,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     } else {
       // Place dialog inside image, pos calculated from mouse click
-      var xPos = mouseEvent.offsetX;
-      var yPos = mouseEvent.offsetY;
+      var xPos = dialogPosX;
+      var yPos = dialogPosY;
 
       // Center dialog on mouse
       xPos -= dialogWidth / 2;
@@ -461,6 +475,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     // Show dialog
     this.$dialog.removeClass('hidden');
+
+    // Hide hotspot coordinates
+    this.toolbar.$coordinates.hide();
   };
 
   /**
@@ -483,10 +500,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    */
   ImageHotspotQuestionEditor.prototype.validate = function () {
     return true;
-  };
-
-  ImageHotspotQuestionEditor.prototype.remove = function () {
-    //Remove all elements
   };
 
   /**

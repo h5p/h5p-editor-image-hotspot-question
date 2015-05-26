@@ -68,7 +68,7 @@
 .h5p-dq-element {
   height: 40px;
   width: 40px;
-  border: 1px solid white;
+  border: 2px dashed rgba(0, 0, 0, 0.5);
   position: absolute;
   left: 50%;
   top: 50%;
@@ -136,5 +136,24 @@
 }
 
 .h5p-image-hotspot-question-editor .error-message {
+  display: none;
+}
+
+.h5p-dragnbar-a {
+  font-size: 16px;
+}
+
+.h5p-dragnbar-rectangle-button:before {
+  content: "\f096";
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+.h5p-dragnbar-circle-button:before {
+  content: "\f10c";
+  vertical-align: middle;
+}
+
+.h5p-dragnbar-coordinates {
   display: none;
 }

@@ -73,6 +73,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
+  background-color: rgba(255,255,255,0.5);
 }
 
 .h5p-image-hotspot-question-editor .h5p-hotspot-element.circle {
@@ -83,6 +84,10 @@
 .h5p-image-hotspot-question-editor .image-hotspot-gui {
   position: relative;
   display: block;
+}
+
+.h5p-image-hotspot-question-editor .image-hotspot-gui img {
+  height: auto;
 }
 
 /* Hotspot dialog */

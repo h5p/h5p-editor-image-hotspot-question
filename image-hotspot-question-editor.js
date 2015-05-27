@@ -13,7 +13,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Object} field
    * @param {Object} params
    * @param {function} setValue
-   * @returns {H5PEditor.ImageHotspotQuestionEditor} Class instance
+   * @returns {H5PEditor.ImageHotspotQuestion} Class instance
    */
   function ImageHotspotQuestionEditor(parent, field, params, setValue) {
 
@@ -95,7 +95,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   ImageHotspotQuestionEditor.prototype.createEditor = function () {
     var html =
       '<div class="h5p-image-hotspot-question-editor">' +
-      ' <div class="error-message">' + H5PEditor.t('noImage') + '</div>' +
+      ' <div class="error-message">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage') + '</div>' +
       ' <div class="task-description"></div>' +
       ' <div class="gui-wrapper">' +
       '   <div class="disabling-overlay hidden"></div>' +
@@ -138,8 +138,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       '<div class="h5peditor-fluid-dialog">' +
       '  <div class="h5peditor-fd-inner"></div>' +
       '  <div class="h5peditor-fd-buttons">' +
-      '    <button class="h5peditor-fd-button h5peditor-done">' + H5PEditor.t('done') + '</button>' +
-      '    <button class="h5peditor-fd-button h5peditor-remove">' + H5PEditor.t('remove') + '</button>' +
+      '    <button class="h5peditor-fd-button h5peditor-done">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'done') + '</button>' +
+      '    <button class="h5peditor-fd-button h5peditor-remove">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'remove') + '</button>' +
       '  </div>' +
       '</div>';
 
@@ -279,7 +279,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     return {
       id: figure,
-      title: H5PEditor.t(figure),
+      title: H5PEditor.t('H5PEditor.ImageHotspotQuestion', figure),
       createElement: function () {
         // Push default parameters
         self.params.hotspot.push({
@@ -325,7 +325,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       })
       .data('id', index)
       .dblclick(function (mouseEvent) {
-        self.editElement(element, mouseEvent.offsetX, mouseEvent.offsetY);
+        var offX = (mouseEvent.offsetX || mouseEvent.pageX - $(mouseEvent.target).offset().left);
+        var offY = (mouseEvent.offsetY || mouseEvent.pageY - $(mouseEvent.target).offset().top);
+        self.editElement(element, offX, offY);
       });
 
     // Make it possible to focus and move element
@@ -575,7 +577,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 }(H5P.jQuery));
 
 // Default english translations
-H5PEditor.language['H5PEditor.InteractiveVideo'] = {
+H5PEditor.language['H5PEditor.ImageHotspotQuestion'] = {
   libraryStrings: {
     noImage: 'You have not selected an image.',
     done: 'Done',

@@ -8,11 +8,12 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Initialize image hotspot question editor.
    *
+   * @class H5PEditor.ImageHotspotQuestion
    * @param {Object} parent
    * @param {Object} field
    * @param {Object} params
    * @param {function} setValue
-   * @returns {ImageHotspotQuestionEditor} Class instance
+   * @returns {H5PEditor.ImageHotspotQuestionEditor} Class instance
    */
   function ImageHotspotQuestionEditor(parent, field, params, setValue) {
 
@@ -92,10 +93,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Attach editor.
    */
   ImageHotspotQuestionEditor.prototype.createEditor = function () {
-    // TODO: Make translation of error message
     var html =
       '<div class="h5p-image-hotspot-question-editor">' +
-      ' <div class="error-message">' + 'You have not selected an image.' + '</div>' +
+      ' <div class="error-message">' + H5PEditor.t('noImage') + '</div>' +
       ' <div class="task-description"></div>' +
       ' <div class="gui-wrapper">' +
       '   <div class="disabling-overlay hidden"></div>' +
@@ -138,8 +138,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       '<div class="h5peditor-fluid-dialog">' +
       '  <div class="h5peditor-fd-inner"></div>' +
       '  <div class="h5peditor-fd-buttons">' +
-      '    <button class="h5peditor-fd-button h5peditor-done">' + 'done' + '</button>' +
-      '    <button class="h5peditor-fd-button h5peditor-remove">' + 'remove' + '</button>' +
+      '    <button class="h5peditor-fd-button h5peditor-done">' + H5PEditor.t('done') + '</button>' +
+      '    <button class="h5peditor-fd-button h5peditor-remove">' + H5PEditor.t('remove') + '</button>' +
       '  </div>' +
       '</div>';
 
@@ -161,6 +161,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.$dialog.addClass('hidden');
   };
 
+  /**
+   * Create all hotspots found in params.
+   */
   ImageHotspotQuestionEditor.prototype.createHotspots = function () {
     var self = this;
 
@@ -251,6 +254,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     };
   };
 
+  /**
+   * Create buttons from buttonTypes list.
+   * @returns {Array} buttonArray An array containing the created buttons
+   */
   ImageHotspotQuestionEditor.prototype.createButtons = function () {
     var self = this;
     var buttonArray = [];
@@ -262,12 +269,17 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     return buttonArray;
   };
 
+  /**
+   * Creates a single button from string.
+   * @param {string} figure A string describing the figure
+   * @returns {{id: *, title: string, createElement: Function}} Button object for creating a drag n bar button.
+   */
   ImageHotspotQuestionEditor.prototype.createHotspotButton = function (figure) {
     var self = this;
 
     return {
       id: figure,
-      title: 'Create ' + figure,
+      title: H5PEditor.t(figure),
       createElement: function () {
         // Push default parameters
         self.params.hotspot.push({
@@ -292,9 +304,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Insert element at given params index.
    *
-   * @param {string} figure The type of hotspot figure that will be inserted
-   * @param {int} index
-   * @returns {jQuery} The element's DOM
+   * @param {int} index Index of the element that should be inserted
+   * @returns {jQuery} The created element
    */
   ImageHotspotQuestionEditor.prototype.insertElement = function (index) {
     var self = this;
@@ -303,7 +314,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     var element = this.generateForm(this.elementFields, elementParams.userSettings);
 
     element.$element = $('<div>', {
-      'class': 'h5p-dq-element'
+      'class': 'h5p-hotspot-element'
     }).addClass(elementParams.computedSettings.figure)
       .appendTo(this.$gui)
       .css({
@@ -345,6 +356,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Set callbacks and open dialog with the form for the given element.
    *
    * @param {Object} element
+   * @param {number} elementPosX X-coordinate of where the dialog for editing element should be placed
+   * @param {number} elementPosY Y-coordinate of where the dialog for editing element should be placed
    * @returns {undefined}
    */
   ImageHotspotQuestionEditor.prototype.editElement = function (element, elementPosX, elementPosY) {
@@ -406,7 +419,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Open hotspot settings dialog.
    *
    * @param {jQuery} $form
-   * @returns {undefined}
+   * @param {Object} element Element object containing the hotspot settings
+   * @param {number} dialogPosX X-coordinate for where the dialog will be positioned
+   * @param {number} dialogPosY Y-coordinate for where the dialog will be positioned
    */
   ImageHotspotQuestionEditor.prototype.showDialog = function ($form, element, dialogPosX, dialogPosY) {
     // Threshold for placing dialog on side of image
@@ -538,6 +553,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     }
   };
 
+  /**
+   * Creates and attaches image to the editor.
+   */
   ImageHotspotQuestionEditor.prototype.populateQuestion = function () {
     // Add image
     this.$image = $('<img>', {
@@ -555,3 +573,14 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
   return ImageHotspotQuestionEditor;
 }(H5P.jQuery));
+
+// Default english translations
+H5PEditor.language['H5PEditor.InteractiveVideo'] = {
+  libraryStrings: {
+    noImage: 'You have not selected an image.',
+    done: 'Done',
+    remove: 'Remove hotspot',
+    rectangle: 'Create rectangle',
+    circle: 'Create circle'
+  }
+};

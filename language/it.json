@@ -1,0 +1,9 @@
+{
+  "libraryStrings": {
+    "noImage": "You have not selected an image.",
+    "done": "Done",
+    "remove": "Remove hotspot",
+    "rectangle": "Create rectangle",
+    "circle": "Create circle"
+  }
+}

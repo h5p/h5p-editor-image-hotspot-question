@@ -51,6 +51,20 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     // Locate image field
     this.findImage(function (imageField) {
       self.imageField = imageField;
+
+      // Remove hotspots and close dialog when changing image
+      self.imageField.changes.push(function () {
+        // Remove all hotspots when image is changed.
+        self.elements.forEach(function (element) {
+          element.$element.remove();
+        });
+        self.params.hotspot = [];
+        self.elements = [];
+        // Close dialog
+        if (self.dialogOpen) {
+          self.hideDialog();
+        }
+      });
     });
 
     // Make sure widget can pass readies (used when processing semantics)
@@ -448,6 +462,12 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     var dialogWidth = $tmp.outerWidth(true);
     var dialogHeight = $tmp.outerHeight(true);
     $tmp.remove();
+
+    // Reset dialog position
+    this.$dialog.css({
+      left: 0,
+      top: 0
+    });
 
     // Place dialog on side, underneath or inside image
     if (roomForDialog >= dialogWidth + 20) {

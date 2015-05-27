@@ -74,6 +74,7 @@
   left: 50%;
   top: 50%;
   background-color: rgba(255,255,255,0.5);
+  cursor: move;
 }
 
 .h5p-image-hotspot-question-editor .h5p-hotspot-element.circle {
@@ -95,9 +96,9 @@
   display: inline-block;
   background: #fff;
   margin: 1em;
-  padding: 1em 0.5em;
   z-index: 1;
   border: 1px solid #000;
+  position: relative;
 }
 
 .h5p-image-hotspot-question-editor .h5peditor-fluid-dialog.outside-side {
@@ -115,7 +116,6 @@
   top: 0;
   width: 400px;
   border: 1px solid #ccc;
-  padding: 0;
   -webkit-box-shadow: 0 0 4px #a7a7a7;
   -moz-box-shadow: 0 0 4px #a7a7a7;
   box-shadow: 0 0 4px #a7a7a7;

@@ -6,6 +6,12 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   var CIRCLE = 'circle';
 
   /**
+   * Initial width and height of feedback circle in pixels
+   * @constant {number}
+   */
+  var INITIAL_FEEDBACK_SIZE = 40;
+
+  /**
    * Initialize image hotspot question editor.
    *
    * @class H5PEditor.ImageHotspotQuestion
@@ -116,6 +122,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       '   <div class="image-hotspot-dnb-wrapper"></div>' +
       '   <div class="image-hotspot-gui"></div>' +
       ' </div>' +
+      ' <div class="h5peditor-field-description gui-wrapper-description">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'guiDescription') + '</div>' +
       ' <div class="none-selected-feedback"></div>' +
       '</div>';
 
@@ -302,10 +309,12 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
             feedbackText: ''
           },
           computedSettings: {
-            x: 50,
-            y: 50,
-            width: (40 * 100 / self.$gui.width()),
-            height: (40 * 100 / self.$gui.height()),
+            // 50% - half the size of feedback in percentages
+            x: 50 - ((INITIAL_FEEDBACK_SIZE / 2) * 100 / self.$gui.width()),
+            y: 50 - ((INITIAL_FEEDBACK_SIZE / 2) * 100 / self.$gui.height()),
+            // 40 pixels in percentages of container.
+            width: (INITIAL_FEEDBACK_SIZE * 100 / self.$gui.width()),
+            height: (INITIAL_FEEDBACK_SIZE * 100 / self.$gui.height()),
             figure: figure
           }
         });
@@ -603,6 +612,7 @@ H5PEditor.language['H5PEditor.ImageHotspotQuestion'] = {
     done: 'Done',
     remove: 'Remove hotspot',
     rectangle: 'Create rectangle',
-    circle: 'Create circle'
+    circle: 'Create circle',
+    guiDescription: 'Drag and drop the desired figure from the toolbar to create a new hotspot. Double-click to edit an existing hotspot. Drag the hotspot to move it. Pull the resize handler in the lower right corner to resize.'
   }
 };

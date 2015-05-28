@@ -1,3 +1,12 @@
+/* Positioning of main elements */
+.h5p-image-hotspot-question-editor .task-description {
+  margin-bottom: 1em;
+}
+
+.h5p-image-hotspot-question-editor .none-selected-feedback {
+  margin-top: 1em;
+}
+
 /* Toolbar styling */
 .h5p-image-hotspot-question-editor .image-hotspot-dnb-wrapper {
   display: block;
@@ -161,7 +170,7 @@
 
 .h5p-image-hotspot-question-editor button.h5peditor-fd-button.h5peditor-remove {
   background: none;
-  border: none;
+  border: 1px solid transparent;
   color: #a00;
   padding-right: 0;
 }

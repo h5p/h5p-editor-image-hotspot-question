@@ -220,6 +220,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui);
     this.toolbar.attach($wrapper);
 
+    // Set snap to 1 pixel
+    this.toolbar.dnd.snap = 1;
+
     // Add event handling
     this.toolbar.stopMovingCallback = function (x, y) {
       // Update params when the element is dropped.

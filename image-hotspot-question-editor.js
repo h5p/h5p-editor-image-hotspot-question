@@ -18,8 +18,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Object} parent
    * @param {Object} field
    * @param {Object} params
-   * @param {function} setValue
-   * @returns {H5PEditor.ImageHotspotQuestion} Class instance
+   * @param {Function} setValue
    */
   function ImageHotspotQuestionEditor(parent, field, params, setValue) {
 
@@ -33,16 +32,52 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       setValue(field, params);
     }
 
-    // Make question parameters accessible
+    /**
+     * Keeps track of parent container
+     * @type {Object}
+     */
     this.parent = parent;
+
+    /**
+     * Keeps track of class parameters
+     * @type {Object}
+     */
     this.params = params;
+
+    /**
+     * Keeps track of created hotspots
+     * @type {Array}
+     */
     this.elements = [];
+
+    /**
+     * Keeps track of the hotspot figures that will be created and available from the toolbar
+     * @type {[]} Array containing hotspot figures
+     */
     this.buttonTypes = [CIRCLE, RECTANGLE];
+
+    /**
+     * True if a hotspot settings dialog is open
+     * @type {boolean}
+     */
     this.dialogOpen = false;
 
-    // Semantics that will used to generate forms
+    /**
+     * Task description semantics. Used to create task description field in editor.
+     * @type {*[]}
+     */
     this.taskDescriptionSemantics = [H5P.cloneObject(field.fields[0], true)];
+
+    /**
+     * Feedback semantics when no hotspots have been selected.
+     * @type {*[]}
+     */
     this.noneSelectedFeedbackSemantics = [H5P.cloneObject(field.fields[2], true)];
+
+    /**
+     * Hotspot settings semantics, used to make the popup on hotspots.
+     * @type {Object|Array}
+     */
     this.elementFields = H5P.cloneObject(field.fields[1].field.fields[0].fields, true);
 
     this.initQuestion();
@@ -102,7 +137,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
   /**
    * Used to append this widget to a wrapper.
-   * @param {jQuery} $wrapper Container widget will be appended to.
+   * @param {H5P.jQuery} $wrapper Container widget will be appended to.
    */
   ImageHotspotQuestionEditor.prototype.appendTo = function ($wrapper) {
 
@@ -127,16 +162,37 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       '</div>';
 
 
+    var $taskDescription = $('.task-description', this.$editor);
+    var $dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
+    var $noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
+
+    /**
+     * Wrapper for question editor
+     * @type {H5P.jQuery}
+     */
     this.$editor = $(html);
-    this.$taskDescription = $('.task-description', this.$editor);
+
+    /**
+     * Wrapper for the complete graphical interface
+     * @type {H5P.jQuery}
+     */
     this.$guiWrapper = $('.gui-wrapper', this.$editor);
+
+    /**
+     * An overlay that disables any actions while a hotspot settings dialog is open.
+     * @type {H5P.jQuery}
+     */
     this.$disablingOverlay = $('.disabling-overlay', this.$editor);
+
+    /**
+     * The graphical interface that is on top of the image, where hotspots are created and manipulated.
+     * @type {H5P.jQuery}
+     */
     this.$gui = $('.image-hotspot-gui', this.$editor);
-    this.$dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
-    this.$noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
 
 
-    this.createToolbar();
+
+    this.createToolbar($dnbWrapper);
     this.createDialog();
     this.createHotspots();
 
@@ -146,8 +202,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     });
 
     // Create semantics
-    H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, this.$taskDescription, this);
-    H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, this.$noneSelectedFeedback, this);
+    H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, $taskDescription, this);
+    H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, $noneSelectedFeedback, this);
   };
 
   /**
@@ -197,9 +253,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Creates the toolbar and enables attachment of hotspots.
    */
-  ImageHotspotQuestionEditor.prototype.createToolbar = function () {
+  ImageHotspotQuestionEditor.prototype.createToolbar = function ($dnbWrapper) {
     // Create toolbar and attach it
-    this.createDragToolbar(this.$dnbWrapper);
+    this.createDragToolbar($dnbWrapper);
 
     // Enable resize of figures and event handling
     this.activateResizeFunctionality();
@@ -207,7 +263,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
   /**
    * Create toolbar with draggable figures, and drag functionality.
-   * @param {jQuery} $wrapper Container for toolbar
+   * @param {H5P.jQuery} $wrapper Container for toolbar
    */
   ImageHotspotQuestionEditor.prototype.createDragToolbar = function ($wrapper) {
     var self = this;
@@ -294,9 +350,16 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   };
 
   /**
+   * @typedef {Object} HotspotFigureButton Hotspot figure button, used to drag hotspot figures from toolbar to image.
+   * @property {String} name of the hotspot figure
+   * @property {String} title for the hotspot button
+   * @property {Function} createElement Callback function when an element is created with this button.
+   */
+
+  /**
    * Creates a single button from string.
    * @param {string} figure A string describing the figure
-   * @returns {{id: *, title: string, createElement: Function}} Button object for creating a drag n bar button.
+   * @returns {HotspotFigureButton} Button object for creating a drag n bar button.
    */
   ImageHotspotQuestionEditor.prototype.createHotspotButton = function (figure) {
     var self = this;
@@ -331,7 +394,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Insert element at given params index.
    *
    * @param {int} index Index of the element that should be inserted
-   * @returns {jQuery} The created element
+   * @returns {H5P.jQuery} The created element
    */
   ImageHotspotQuestionEditor.prototype.insertElement = function (index) {
     var self = this;
@@ -446,10 +509,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   /**
    * Open hotspot settings dialog.
    *
-   * @param {jQuery} $form
+   * @param {H5P.jQuery} $form
    * @param {Object} element Element object containing the hotspot settings
-   * @param {number} dialogPosX X-coordinate for where the dialog will be positioned
-   * @param {number} dialogPosY Y-coordinate for where the dialog will be positioned
+   * @param {Number} dialogPosX X-coordinate for where the dialog will be positioned
+   * @param {Number} dialogPosY Y-coordinate for where the dialog will be positioned
    */
   ImageHotspotQuestionEditor.prototype.showDialog = function ($form, element, dialogPosX, dialogPosY) {
     // Threshold for placing dialog on side of image

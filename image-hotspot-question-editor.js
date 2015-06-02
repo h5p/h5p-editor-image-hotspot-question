@@ -404,9 +404,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     var element = this.generateForm(this.elementFields, elementParams.userSettings);
 
     element.$element = $('<div>', {
-      'class': 'h5p-hotspot-element'
-    }).addClass(elementParams.computedSettings.figure)
-      .appendTo(this.$gui)
+      'class': 'h5p-hotspot-wrapper'
+    }).appendTo(this.$gui)
       .css({
         left: elementParams.computedSettings.x + '%',
         top: elementParams.computedSettings.y + '%',
@@ -419,6 +418,11 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
         var offY = (mouseEvent.offsetY || mouseEvent.pageY - $(mouseEvent.target).offset().top);
         self.editElement(element, offX, offY);
       });
+
+    // Create inner figure
+    $('<div>', {
+      'class': 'h5p-hotspot-element ' + elementParams.computedSettings.figure
+    }).appendTo(element.$element);
 
     // Make it possible to focus and move element
     this.toolbar.add(element.$element);

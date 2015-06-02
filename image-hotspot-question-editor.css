@@ -75,15 +75,20 @@
 }
 
 /* Hotspot element */
-.h5p-image-hotspot-question-editor .h5p-hotspot-element {
-  height: 40px;
-  width: 40px;
-  border: 2px dashed rgba(0, 0, 0, 0.5);
+.h5p-image-hotspot-question-editor .h5p-hotspot-wrapper {
   position: absolute;
   left: 50%;
   top: 50%;
-  background-color: rgba(255,255,255,0.5);
+  height: 40px;
+  width: 40px;
   cursor: move;
+}
+
+.h5p-image-hotspot-question-editor .h5p-hotspot-element {
+  border: 2px dashed rgba(0, 0, 0, 0.5);
+  background-color: rgba(255,255,255,0.5);
+  height: 100%;
+  width: 100%;
 }
 
 .h5p-image-hotspot-question-editor .h5p-hotspot-element.circle {

@@ -161,11 +161,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       ' <div class="none-selected-feedback"></div>' +
       '</div>';
 
-
-    var $taskDescription = $('.task-description', this.$editor);
-    var $dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
-    var $noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
-
     /**
      * Wrapper for question editor
      * @type {H5P.jQuery}
@@ -190,7 +185,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
      */
     this.$gui = $('.image-hotspot-gui', this.$editor);
 
-
+    var $taskDescription = $('.task-description', this.$editor);
+    var $dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
+    var $noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
 
     this.createToolbar($dnbWrapper);
     this.createDialog();

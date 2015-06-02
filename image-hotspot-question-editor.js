@@ -245,9 +245,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     var self = this;
 
     // Add Elements
-    this.params.hotspot.forEach(function (hotspot, index) {
-      self.insertElement(index);
-    });
+    var i;
+    for (i = 0; i <= this.params.hotspot.length - 1; i += 1) {
+      self.insertElement(i);
+    }
   };
 
   /**

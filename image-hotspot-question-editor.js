@@ -656,6 +656,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Creates and attaches image to the editor.
    */
   ImageHotspotQuestionEditor.prototype.populateQuestion = function () {
+    var self = this;
+
     // Add image
     this.$image = $('<img>', {
       'src': H5P.getPath(this.imageField.params.path, H5PEditor.contentId)
@@ -667,7 +669,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     }
 
     // Set imagewrapper height to image height, because of an issue with drag n resize's css 'top'
-    this.$gui.height(this.$image.height());
+    this.$image.load(function () {
+      self.$gui.height(self.$image.height());
+    });
+
   };
 
   return ImageHotspotQuestionEditor;

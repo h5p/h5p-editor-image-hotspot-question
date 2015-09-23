@@ -22,14 +22,18 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    */
   function ImageHotspotQuestionEditor(parent, field, params, setValue) {
 
+    var defaults = {
+      taskDescription: '',
+      hotspot: [],
+      noneSelectedFeedback: ''
+    };
+
     // Set default params
     if (params === undefined) {
-      params = {
-        taskDescription: '',
-        hotspot: [],
-        noneSelectedFeedback: ''
-      };
+      params = defaults;
       setValue(field, params);
+    } else {
+      params = $.extend(true, {}, defaults, params);
     }
 
     /**

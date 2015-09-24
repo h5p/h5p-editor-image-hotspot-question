@@ -33,7 +33,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       params = defaults;
       setValue(field, params);
     } else {
-      params = $.extend(true, {}, defaults, params);
+      $.extend(true, params, defaults);
     }
 
     /**
@@ -469,6 +469,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
           valid = false;
         }
       });
+
 
       return valid;
     };

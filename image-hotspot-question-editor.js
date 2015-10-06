@@ -258,9 +258,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   ImageHotspotQuestionEditor.prototype.createToolbar = function ($dnbWrapper) {
     // Create toolbar and attach it
     this.createDragToolbar($dnbWrapper);
-
-    // Enable resize of figures and event handling
-    this.activateResizeFunctionality();
   };
 
   /**
@@ -275,13 +272,18 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     }
 
     // Activate toolbar, add buttons and attach it to $wrapper
-    this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui);
-    this.toolbar.attach($wrapper);
-
-    // Set snap to 1 pixel
-    this.toolbar.dnd.snap = 1;
+    this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui, $wrapper);
 
     // Add event handling
+    self.toolbar.dnr.on('stoppedResizing', function (event) {
+      var id = self.toolbar.$element.data('id');
+      var hotspotParams = self.params.hotspot[id];
+
+      var fontSize = parseInt(self.$gui.css('font-size'), 10);
+      hotspotParams.computedSettings.width = (event.data.width * fontSize)  / (self.$gui.width() / 100);
+      hotspotParams.computedSettings.height = (event.data.height * fontSize)  / (self.$gui.height() / 100);
+    });
+
     this.toolbar.stopMovingCallback = function (x, y) {
       // Update params when the element is dropped.
       var id = self.toolbar.dnd.$element.data('id');
@@ -310,29 +312,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
           self.toolbar.newElement = false;
         }, 0);
       }
-    };
-  };
-
-  /**
-   * Activate resize functionality for figures created with the toolbar.
-   */
-  ImageHotspotQuestionEditor.prototype.activateResizeFunctionality = function () {
-    var self = this;
-    if (!!this.resizableElements) {
-      return;
-    }
-
-    // Activate drag n resize
-    this.resizableElements = new H5P.DragNResize(this.$gui);
-
-    // Add event handling
-    this.resizableElements.resizeCallback = function (width, height) {
-      var id = self.resizableElements.$element.data('id');
-      var hotspotParams = self.params.hotspot[id];
-
-      var fontSize = parseInt(self.$gui.css('font-size'), 10);
-      hotspotParams.computedSettings.width = (width * fontSize)  / (self.$gui.width() / 100);
-      hotspotParams.computedSettings.height = (height * fontSize)  / (self.$gui.height() / 100);
     };
   };
 
@@ -427,9 +406,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     // Make it possible to focus and move element
     this.toolbar.add(element.$element);
-
-    // Make resize possible
-    this.resizableElements.add(element.$element);
 
     this.elements[index] = element;
     return element.$element;
@@ -604,9 +580,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     // Show dialog
     this.$dialog.removeClass('hidden');
-
-    // Hide hotspot coordinates
-    this.toolbar.$coordinates.hide();
   };
 
   /**

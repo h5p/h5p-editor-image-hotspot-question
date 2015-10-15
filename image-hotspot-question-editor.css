@@ -70,10 +70,6 @@
   vertical-align: middle;
 }
 
-.h5p-image-hotspot-question-editor .h5p-dragnbar-coordinates {
-  display: none;
-}
-
 /* Hotspot element */
 .h5p-image-hotspot-question-editor .h5p-hotspot-wrapper {
   position: absolute;

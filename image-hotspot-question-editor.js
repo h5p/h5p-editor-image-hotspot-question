@@ -225,6 +225,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     $('.h5peditor-done', this.$dialog).click(function () {
       if (self.doneCallback() !== false) {
         self.hideDialog();
+        setTimeout(function () {
+          // Put focus back on element
+          self.toolbar.focus(self.$prevFocusElement);
+        }, 0);
       }
       return false;
     });
@@ -272,7 +276,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     }
 
     // Activate toolbar, add buttons and attach it to $wrapper
-    this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui, $wrapper);
+    this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui, this.$guiWrapper);
 
     // Add event handling
     self.toolbar.dnr.on('stoppedResizing', function (event) {
@@ -313,6 +317,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
         }, 0);
       }
     };
+
+    self.toolbar.attach($wrapper);
   };
 
   /**
@@ -405,7 +411,16 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     }).appendTo(element.$element);
 
     // Make it possible to focus and move element
-    this.toolbar.add(element.$element);
+    var dnbElement = this.toolbar.add(element.$element);
+
+    dnbElement.contextMenu.on('contextMenuEdit', function () {
+      self.editElement(element, elementParams.computedSettings.x, elementParams.computedSettings.y);
+    });
+
+    dnbElement.contextMenu.on('contextMenuRemove', function () {
+      self.removeElement(element);
+      dnbElement.blur();
+    });
 
     this.elements[index] = element;
     return element.$element;
@@ -435,7 +450,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    */
   ImageHotspotQuestionEditor.prototype.editElement = function (element, elementPosX, elementPosY) {
     var self = this;
-    var id = element.$element.data('id');
 
     this.doneCallback = function () {
       // Validate form
@@ -446,26 +460,42 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
         }
       });
 
+      self.$prevFocusElement = element.$element;
 
       return valid;
     };
 
     this.removeCallback = function () {
-      // Remove element form
-      H5PEditor.removeChildren(element.children);
-
-      // Remove element
-      element.$element.remove();
-      self.elements.splice(id, 1);
-      self.params.hotspot.splice(id, 1);
-
-      // Change data index for "all" elements
-      self.elements.forEach(function (element, index) {
-        element.$element.data('id', index);
-      });
+      self.removeElement(element);
     };
 
     this.showDialog(element.$form, element, elementPosX, elementPosY);
+
+    setTimeout(function () {
+      self.toolbar.blurAll();
+    }, 0);
+  };
+
+  /**
+   * Removes the given element.
+   * @param {Object} element
+   */
+  ImageHotspotQuestionEditor.prototype.removeElement = function (element) {
+    var self = this;
+    var id = element.$element.data('id');
+
+    // Remove element form
+    H5PEditor.removeChildren(element.children);
+
+    // Remove element
+    element.$element.remove();
+    self.elements.splice(id, 1);
+    self.params.hotspot.splice(id, 1);
+
+    // Change data index for "all" elements (re-index)
+    self.elements.forEach(function (element, index) {
+      element.$element.data('id', index);
+    });
   };
 
   /**
@@ -620,6 +650,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
       // Create editor content
       this.populateQuestion();
+
+      this.toolbar.blurAll();
 
     } else {
       // Remove image and display error message

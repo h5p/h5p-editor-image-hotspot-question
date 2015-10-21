@@ -480,7 +480,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Removes the given element.
    * @param {Object} element
    */
-  ImageHotspotQuestionEditor.prototype.removeElement = function (element) {
+  ImageHotspotQuestionEditor.prototype.removeElement = function (element) {
     var self = this;
     var id = element.$element.data('id');
 

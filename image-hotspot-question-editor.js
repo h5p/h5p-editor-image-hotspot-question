@@ -111,6 +111,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     });
 
     this.createEditor();
+
+    H5P.$window.on('resize', function () {
+      self.resize();
+    });
   };
 
   /**
@@ -278,6 +282,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       var fontSize = parseInt(self.$gui.css('font-size'), 10);
       hotspotParams.computedSettings.width = (event.data.width * fontSize)  / (self.$gui.width() / 100);
       hotspotParams.computedSettings.height = (event.data.height * fontSize)  / (self.$gui.height() / 100);
+      self.toolbar.$element.css({
+        width: hotspotParams.computedSettings.width + '%',
+        height: hotspotParams.computedSettings.height + '%'
+      });
     });
 
     this.toolbar.stopMovingCallback = function (x, y) {
@@ -665,16 +673,25 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       'src': H5P.getPath(this.imageField.params.path, H5PEditor.contentId)
     }).appendTo(this.$gui);
 
-    // Scale image down if it is too wide
-    if (this.$image.get(0).naturalWidth > this.$editor.width()) {
-      this.$image.width(this.$editor.width());
+    this.resize();
+  };
+
+  /**
+   * Resize question
+   */
+  ImageHotspotQuestionEditor.prototype.resize = function () {
+    if (!this.$image) {
+      return;
     }
 
-    // Set imagewrapper height to image height, because of an issue with drag n resize's css 'top'
-    this.$image.load(function () {
-      self.$gui.height(self.$image.height());
-    });
-
+    // Scale image down if it is too wide
+    if (this.$image.get(0).naturalWidth > this.$editor.width()) {
+      this.$image.css('width', '100%');
+    }
+    else {
+      this.$image.css('width', '');
+    }
+    this.toolbar.blurAll();
   };
 
   return ImageHotspotQuestionEditor;

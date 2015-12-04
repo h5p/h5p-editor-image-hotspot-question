@@ -97,7 +97,9 @@
   display: block;
 }
 
-.h5p-image-hotspot-question-editor .image-hotspot-gui img {
+.h5p-image-hotspot-question-image {
+  display: block;
+  min-width: 28em;
   height: auto;
   pointer-events: none;
 }
@@ -184,7 +186,6 @@
 /* Image wrapper */
 .h5p-image-hotspot-question-editor .gui-wrapper {
   display: inline-block;
-  overflow: hidden;
   position: relative;
 }
 

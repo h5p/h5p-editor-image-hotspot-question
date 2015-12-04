@@ -234,7 +234,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       self.hideDialog();
     });
 
-    this.$dialog.appendTo(this.$gui);
+    this.$dialog.appendTo(this.$guiWrapper);
     this.$dialoginner = $('.h5peditor-fd-inner', this.$dialog);
     this.$dialog.addClass('hidden');
   };
@@ -273,6 +273,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     // Activate toolbar, add buttons and attach it to $wrapper
     this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui, this.$guiWrapper);
+
+    // Must set containerEm
+    self.toolbar.dnr.setContainerEm(parseFloat(self.$gui.css('font-size')));
 
     // Add event handling
     self.toolbar.dnr.on('stoppedResizing', function (event) {
@@ -545,7 +548,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     // Measure dialog size
     var $tmp = this.$dialog.clone()
-      .addClass('inside')
+      .removeClass('hidden')
+      .addClass('outside-side')
       .appendTo(this.$gui);
     var dialogWidth = $tmp.outerWidth(true);
     var dialogHeight = $tmp.outerHeight(true);
@@ -558,19 +562,21 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     });
 
     // Place dialog on side, underneath or inside image
-    if (roomForDialog >= dialogWidth + 20) {
+    if (roomForDialog >= dialogWidth) {
 
       // Append dialog to gui wrapper
       this.$dialog.addClass('outside-side')
         .insertAfter(this.$guiWrapper);
 
-    } else if (this.$gui.height() < (dialogHeight + 20)) {
+    } // Put dialog under picture if small height or width
+    else if (dialogWidth > this.$gui.width()
+      || this.$gui.height() < dialogHeight) {
 
-      // Put dialog under picture if small height
       this.$dialog.addClass('outside-underneath')
-        .insertAfter(this.$gui);
+        .insertAfter(this.$guiWrapper);
 
-    } else {
+    }
+    else {
       // Place dialog inside image, pos calculated from mouse click
       var xPos = dialogPosX;
       var yPos = dialogPosY;
@@ -605,7 +611,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
         left: xPos + 'px',
         top: yPos + 'px'
       }).addClass('inside')
-        .appendTo(this.$gui);
+        .appendTo(this.$guiWrapper);
     }
 
     // Show dialog
@@ -670,6 +676,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     // Add image
     this.$image = $('<img>', {
+      'class': 'h5p-image-hotspot-question-image',
       'src': H5P.getPath(this.imageField.params.path, H5PEditor.contentId)
     }).appendTo(this.$gui);
 
@@ -691,6 +698,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     else {
       this.$image.css('width', '');
     }
+
+    // Set containerEm
+    this.toolbar.dnr.setContainerEm(parseFloat(this.$gui.css('font-size')));
     this.toolbar.blurAll();
   };
 

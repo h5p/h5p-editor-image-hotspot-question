@@ -1,0 +1,10 @@
+{
+  "libraryStrings": {
+    "noImage": "Es wurde kein Bild ausgewählt.",
+    "done": "Erledigt",
+    "remove": "Hotspot entfernen",
+    "rectangle": "Rechteck erstellen",
+    "circle": "Kreis erstellen",
+    "guiDescription": "Ziehen und Platzieren der gewünschten Figur aus der Werkzeugleiste, um einen neuen Hotspot zu erstellen. Doppelklicken, um den existierenden Hotspot zu bearbeiten. Den Hotspot ziehen, um ihn zu bewegen. Den Griff zur Größenveränderung in die untere rechte Ecke ziehen, um die Größe zu ändern."
+  }
+}

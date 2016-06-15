@@ -285,18 +285,11 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       var fontSize = parseInt(self.$gui.css('font-size'), 10);
       var containerWidth = self.$gui.width();
       var containerHeight = self.$gui.height();
-      if (event.data.width) {
-        hotspotParams.computedSettings.width = event.data.width * fontSize / (containerWidth / 100);
-      }
-      if (event.data.height) {
-        hotspotParams.computedSettings.height = event.data.height * fontSize / (containerHeight / 100);
-      }
-      if (event.data.left) {
-        hotspotParams.computedSettings.x = event.data.left / (containerWidth / 100);
-      }
-      if (event.data.top) {
-        hotspotParams.computedSettings.y = event.data.top / (containerHeight / 100);
-      }
+
+      hotspotParams.computedSettings.width = event.data.width * fontSize / (containerWidth / 100);
+      hotspotParams.computedSettings.height = event.data.height * fontSize / (containerHeight / 100);
+      hotspotParams.computedSettings.x = event.data.left / (containerWidth / 100);
+      hotspotParams.computedSettings.y = event.data.top / (containerHeight / 100);
 
       self.toolbar.$element.css({
         width: hotspotParams.computedSettings.width + '%',

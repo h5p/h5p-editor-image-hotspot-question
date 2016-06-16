@@ -303,7 +303,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
         }
         else if (posMap[type] !== undefined) {
           // Position values
-          newStyle = hotspotParams.computedSettings[posMap[type]] = event.data[type] / (containerSize1p[relMap[type]] / 100);
+          newStyle = hotspotParams.computedSettings[posMap[type]] = event.data[type] / containerSize1p[relMap[type]];
         }
 
         if (newStyle !== null) {
@@ -311,7 +311,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
           newElementStyles[type] = newStyle + '%';
         }
       }
-
+      
       // Apply new position
       self.toolbar.$element.css(newElementStyles);
     });

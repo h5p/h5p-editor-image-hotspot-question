@@ -282,13 +282,38 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       var id = self.toolbar.$element.data('id');
       var hotspotParams = self.params.hotspot[id];
 
-      var fontSize = parseInt(self.$gui.css('font-size'), 10);
-      hotspotParams.computedSettings.width = (event.data.width * fontSize)  / (self.$gui.width() / 100);
-      hotspotParams.computedSettings.height = (event.data.height * fontSize)  / (self.$gui.height() / 100);
-      self.toolbar.$element.css({
-        width: hotspotParams.computedSettings.width + '%',
-        height: hotspotParams.computedSettings.height + '%'
-      });
+      // Figure out environment sizes
+      var fontSize = parseFloat(self.$gui.css('font-size'));
+      var containerSize1p = {
+        width: self.$gui.width() / 100,
+        height: self.$gui.height() / 100
+      };
+
+      // Convert event data values into new styles
+      var newElementStyles = {};
+      for (var type in event.data) {
+        if (!event.data.hasOwnProperty(type)) {
+          continue;
+        }
+
+        var newStyle = null;
+        if (containerSize1p[type] !== undefined) {
+          // Size values
+          newStyle = hotspotParams.computedSettings[type] = event.data[type] * fontSize / containerSize1p[type];
+        }
+        else if (posMap[type] !== undefined) {
+          // Position values
+          newStyle = hotspotParams.computedSettings[posMap[type]] = event.data[type] / containerSize1p[relMap[type]];
+        }
+
+        if (newStyle !== null) {
+          // New CSS style based on value
+          newElementStyles[type] = newStyle + '%';
+        }
+      }
+      
+      // Apply new position
+      self.toolbar.$element.css(newElementStyles);
     });
 
     this.toolbar.stopMovingCallback = function (x, y) {
@@ -578,8 +603,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
         .insertAfter(this.$guiWrapper);
 
     } // Put dialog under picture if small height or width
-    else if (dialogWidth > this.$gui.width()
-      || this.$gui.height() < dialogHeight) {
+    else if (dialogWidth > this.$gui.width() ||
+        this.$gui.height() < dialogHeight) {
 
       this.$dialog.addClass('outside-underneath')
         .insertAfter(this.$guiWrapper);
@@ -711,6 +736,19 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     // Set containerEm
     this.toolbar.dnr.setContainerEm(parseFloat(this.$gui.css('font-size')));
     this.toolbar.blurAll();
+  };
+
+  /**
+   * Mappings shared between instances.
+   * @private
+   */
+  var posMap = {
+    left: 'x',
+    top: 'y'
+  };
+  var relMap = {
+    left: 'width',
+    top: 'height'
   };
 
   return ImageHotspotQuestionEditor;

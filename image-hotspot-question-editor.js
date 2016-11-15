@@ -642,8 +642,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
       // Position dialog inside image
       this.$dialog.css({
-        left: xPos + 'px',
-        top: yPos + 'px'
+        left: 0 + 'px',
+        top: 45 + 'px'
       }).addClass('inside')
         .appendTo(this.$guiWrapper);
     }

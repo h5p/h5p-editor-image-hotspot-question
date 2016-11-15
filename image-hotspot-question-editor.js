@@ -611,35 +611,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     }
     else {
-      // Place dialog inside image, pos calculated from mouse click
-      var xPos = dialogPosX;
-      var yPos = dialogPosY;
-
-      // Center dialog on mouse
-      xPos -= dialogWidth / 2;
-      yPos -= dialogHeight / 2;
-
-      // Apply element offset
-      xPos += element.$element.position().left;
-      yPos += element.$element.position().top;
-
-      // Edge cases
-      if (dialogWidth >= this.$guiWrapper.width()) {
-        this.$dialog.outerWidth(this.$guiWrapper.width());
-        xPos = 0;
-      } else if (xPos < 0) {
-        xPos = 0;
-      } else if (xPos + dialogWidth > this.$guiWrapper.width()) {
-        xPos = this.$guiWrapper.width() - dialogWidth;
-      }
-
-      // Already checked if image is too small
-      if (yPos < 0) {
-        yPos = 0;
-      } else if (yPos + dialogHeight > this.$gui.height()) {
-        yPos = this.$gui.height() - dialogHeight;
-      }
-
       // Position dialog inside image
       this.$dialog.css({
         left: 0 + 'px',

@@ -340,7 +340,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
           }
 
           // Set x and y to 50% of width and height.
-          self.editElement(self.elements[id], hotspotParams.computedSettings.x, hotspotParams.computedSettings.y);
+          self.editElement(self.elements[id], hotspotParams.computedSettings.x, hotspotParams.computedSettings.y, true);
           self.toolbar.newElement = false;
         }, 0);
       }
@@ -483,9 +483,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Object} element
    * @param {number} elementPosX X-coordinate of where the dialog for editing element should be placed
    * @param {number} elementPosY Y-coordinate of where the dialog for editing element should be placed
+   * @param {boolean} isNew tells if element is new or editing existing.
    * @returns {undefined}
    */
-  ImageHotspotQuestionEditor.prototype.editElement = function (element, elementPosX, elementPosY) {
+  ImageHotspotQuestionEditor.prototype.editElement = function (element, elementPosX, elementPosY, isNew) {
     var self = this;
 
     this.doneCallback = function () {
@@ -506,7 +507,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       self.removeElement(element);
     };
 
-    this.showDialog(element.$form, element, elementPosX, elementPosY);
+    this.showDialog(element.$form, element, elementPosX, elementPosY, isNew);
 
     setTimeout(function () {
       self.toolbar.blurAll();
@@ -563,8 +564,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Object} element Element object containing the hotspot settings
    * @param {Number} dialogPosX X-coordinate for where the dialog will be positioned
    * @param {Number} dialogPosY Y-coordinate for where the dialog will be positioned
+   * @param {boolean} isNew tells if element is new or editing existing.
    */
-  ImageHotspotQuestionEditor.prototype.showDialog = function ($form, element, dialogPosX, dialogPosY) {
+  ImageHotspotQuestionEditor.prototype.showDialog = function ($form, element, dialogPosX, dialogPosY, isNew) {
     // Threshold for placing dialog on side of image
     var roomForDialog = this.$editor.width() - this.$guiWrapper.width();
 
@@ -595,29 +597,44 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       top: 0
     });
 
-    // Place dialog on side, underneath or inside image
-    if (roomForDialog >= dialogWidth) {
+    var xPos = 0;
+    var yPos = 0;
 
-      // Append dialog to gui wrapper
-      this.$dialog.addClass('outside-side')
-        .insertAfter(this.$guiWrapper);
+    if (typeof isNew !== 'undefined' && isNew == true) {
+      yPos = 45;
+    } else {
+      // Place dialog with pos calculated from mouse click and center
+      xPos = dialogPosX / 2;
+      yPos = dialogPosY / 2;
+  
+      // Apply element offset
+      xPos += element.$element.position().left;
+      yPos += element.$element.position().top;
 
-    } // Put dialog under picture if small height or width
-    else if (dialogWidth > this.$gui.width() ||
-        this.$gui.height() < dialogHeight) {
+      // Edge cases
+      if (dialogWidth >= this.$guiWrapper.width()) {
+        this.$dialog.outerWidth(this.$guiWrapper.width());
+        xPos = 0;
+      } else if (xPos < 0) {
+        xPos = 0;
+      } else if (xPos + dialogWidth > this.$guiWrapper.width()) {
+        xPos = this.$guiWrapper.width() - dialogWidth;
+      }
 
-      this.$dialog.addClass('outside-underneath')
-        .insertAfter(this.$guiWrapper);
-
+      // Already checked if image is too small
+      if (yPos < 0) {
+        yPos = 0;
+      } else if (yPos + dialogHeight > this.$gui.height()) {
+        yPos = this.$gui.height() - dialogHeight;
+      }
     }
-    else {
-      // Position dialog inside image
-      this.$dialog.css({
-        left: 0 + 'px',
-        top: 45 + 'px'
-      }).addClass('inside')
-        .appendTo(this.$guiWrapper);
-    }
+
+    // Position dialog
+    this.$dialog.css({
+      left: xPos + 'px',
+      top: yPos + 'px'
+    }).addClass('inside')
+      .appendTo(this.$guiWrapper);
 
     // Show dialog
     this.$dialog.removeClass('hidden');

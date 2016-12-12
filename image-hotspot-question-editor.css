@@ -132,10 +132,6 @@
   vertical-align: top;
 }
 
-.h5p-image-hotspot-question-editor .h5peditor-fluid-dialog.outside-underneath {
-  margin: 1em 0;
-}
-
 .h5p-image-hotspot-question-editor .h5peditor-fluid-dialog.inside {
   position: absolute;
   left: 0;

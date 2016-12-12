@@ -311,7 +311,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
           newElementStyles[type] = newStyle + '%';
         }
       }
-      
+
       // Apply new position
       self.toolbar.$element.css(newElementStyles);
     });
@@ -602,13 +602,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       this.$dialog.addClass('outside-side')
         .insertAfter(this.$guiWrapper);
 
-    } // Put dialog under picture if small height or width
-    else if (dialogWidth > this.$gui.width() ||
-        this.$gui.height() < dialogHeight) {
-
-      this.$dialog.addClass('outside-underneath')
-        .insertAfter(this.$guiWrapper);
-
     }
     else {
       // Position dialog inside image
@@ -633,7 +626,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.$dialog.detach()
       .addClass('hidden')
       .removeClass('outside-side')
-      .removeClass('outside-underneath')
       .removeClass('inside');
   };
 

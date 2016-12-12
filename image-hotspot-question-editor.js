@@ -428,9 +428,11 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       })
       .data('id', index)
       .dblclick(function (mouseEvent) {
-        var offX = (mouseEvent.offsetX || mouseEvent.pageX - $(mouseEvent.target).offset().left);
-        var offY = (mouseEvent.offsetY || mouseEvent.pageY - $(mouseEvent.target).offset().top);
-        self.editElement(element, offX, offY);
+        var offX = mouseEvent.clientX - self.$gui.offset().left;
+        var offY = mouseEvent.clientY - self.$gui.offset().top;
+        var offXp = offX * 100 / self.$gui.width();
+        var offYp = offY * 100 / self.$gui.height();
+        self.editElement(element, offXp, offYp);
       });
 
     // Create inner figure
@@ -565,6 +567,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Number} dialogPosY Y-coordinate for where the dialog will be positioned
    */
   ImageHotspotQuestionEditor.prototype.showDialog = function ($form, element, dialogPosX, dialogPosY) {
+    var self = this;
+
     // Threshold for placing dialog on side of image
     var roomForDialog = this.$editor.width() - this.$guiWrapper.width();
 
@@ -586,8 +590,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       .addClass('outside-side')
       .appendTo(this.$gui);
     var dialogWidth = $tmp.outerWidth(true);
-    var dialogHeight = $tmp.outerHeight(true);
-    $tmp.remove();
 
     // Reset dialog position
     this.$dialog.css({
@@ -597,20 +599,47 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     // Place dialog on side, underneath or inside image
     if (roomForDialog >= dialogWidth) {
-
       // Append dialog to gui wrapper
       this.$dialog.addClass('outside-side')
         .insertAfter(this.$guiWrapper);
-
     }
     else {
-      // Position dialog inside image
+      $tmp.removeClass('outside-side')
+        .addClass('inside');
+      dialogWidth = $tmp.outerWidth(true);
+      var dialogHeight = $tmp.outerHeight(true);
+
+      /**
+       * Limit size to parent boundaries
+       *
+       * @param {number} pos Current position of element in percentage
+       * @param {number} dialogSize Dialog size in pixels
+       * @param {number} parentSize Parent size in pixels
+       *
+       * @return {number} New position in percentage
+       */
+      var limitSize = function (pos, dialogSize, parentSize) {
+        var newPos = pos - (dialogSize * 100 / 2 / parentSize);
+        if (newPos <= 0) {
+          newPos = 0;
+        }
+        else if (((newPos / 100 * parentSize) + dialogSize) > parentSize) {
+          newPos = (parentSize - dialogSize) * 100 / parentSize;
+        }
+        return newPos;
+      };
+
+      // Contain within min/max size
+      var percX = limitSize(dialogPosX, dialogWidth, self.$gui.width());
+      var percY = limitSize(dialogPosY, dialogHeight, self.$gui.height());
+
       this.$dialog.css({
-        left: 0 + 'px',
-        top: 45 + 'px'
+        left: percX + '%',
+        top: percY + '%'
       }).addClass('inside')
         .appendTo(this.$guiWrapper);
     }
+    $tmp.remove();
 
     // Show dialog
     this.$dialog.removeClass('hidden');
@@ -669,8 +698,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Creates and attaches image to the editor.
    */
   ImageHotspotQuestionEditor.prototype.populateQuestion = function () {
-    var self = this;
-
     // Add image
     this.$image = $('<img>', {
       'class': 'h5p-image-hotspot-question-image',

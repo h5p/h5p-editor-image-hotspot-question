@@ -152,12 +152,16 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       '<div class="h5p-image-hotspot-question-editor">' +
       ' <div class="error-message">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage') + '</div>' +
       ' <div class="task-description"></div>' +
-      ' <div class="gui-wrapper">' +
-      '   <div class="disabling-overlay hidden"></div>' +
-      '   <div class="image-hotspot-dnb-wrapper"></div>' +
-      '   <div class="image-hotspot-gui"></div>' +
-      ' </div>' +
-      ' <div class="h5peditor-field-description gui-wrapper-description">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'guiDescription') + '</div>' +
+      H5PEditor.createItem(
+          '',
+          '',
+          H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'guiDescription'),
+          ' <div class="gui-wrapper">' +
+          '   <div class="disabling-overlay hidden"></div>' +
+          '   <div class="image-hotspot-dnb-wrapper"></div>' +
+          '   <div class="image-hotspot-gui"></div>' +
+          ' </div>'
+      ) +
       ' <div class="none-selected-feedback"></div>' +
       '</div>';
 

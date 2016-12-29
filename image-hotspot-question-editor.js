@@ -149,7 +149,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    */
   ImageHotspotQuestionEditor.prototype.createEditor = function () {
     var html =
-      '<div class="h5p-image-hotspot-question-editor">' +
+      '<div class="h5p-image-hotspot-question-editor content">' +
       ' <div class="error-message">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage') + '</div>' +
       ' <div class="task-description"></div>' +
       H5PEditor.createItem(

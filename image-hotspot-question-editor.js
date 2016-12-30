@@ -35,6 +35,11 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.parent = parent;
 
     /**
+     * @type {object}
+     */
+    this.field = field;
+
+    /**
      * Keeps track of class parameters
      * @type {Object}
      */
@@ -148,21 +153,19 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * Attach editor.
    */
   ImageHotspotQuestionEditor.prototype.createEditor = function () {
+    var content =
+      '<div class="gui-wrapper">' +
+      '  <div class="disabling-overlay hidden"></div>' +
+      '  <div class="image-hotspot-dnb-wrapper"></div>' +
+      '  <div class="image-hotspot-gui"></div>' +
+      '</div>';
+
     var html =
       '<div class="h5p-image-hotspot-question-editor content">' +
-      ' <div class="error-message">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage') + '</div>' +
-      ' <div class="task-description"></div>' +
-      H5PEditor.createItem(
-          '',
-          '',
-          H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'guiDescription'),
-          ' <div class="gui-wrapper">' +
-          '   <div class="disabling-overlay hidden"></div>' +
-          '   <div class="image-hotspot-dnb-wrapper"></div>' +
-          '   <div class="image-hotspot-gui"></div>' +
-          ' </div>'
-      ) +
-      ' <div class="none-selected-feedback"></div>' +
+      '  <div class="error-message">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage') + '</div>' +
+      '  <div class="task-description"></div>' +
+         H5PEditor.createFieldMarkup(this.getFieldData(), content) +
+      '  <div class="none-selected-feedback"></div>' +
       '</div>';
 
     /**
@@ -205,6 +208,18 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     // Create semantics
     H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, $taskDescription, this);
     H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, $noneSelectedFeedback, this);
+  };
+
+  ImageHotspotQuestionEditor.prototype.getFieldData = function(){
+    var field = H5P.cloneObject(this.field);
+
+    // use editor translation for description
+    field.description = H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'guiDescription'); // TODO Use description from semantics?
+
+    // don't render label
+    field.label = undefined;
+
+    return field;
   };
 
   /**

@@ -164,7 +164,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       '<div class="h5p-image-hotspot-question-editor content">' +
       '  <div class="error-message">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage') + '</div>' +
       '  <div class="task-description"></div>' +
-         H5PEditor.createFieldMarkup(this.getFieldData(), content) +
+         H5PEditor.createFieldMarkup(this.field, content) +
       '  <div class="none-selected-feedback"></div>' +
       '</div>';
 
@@ -208,18 +208,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     // Create semantics
     H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, $taskDescription, this);
     H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, $noneSelectedFeedback, this);
-  };
-
-  ImageHotspotQuestionEditor.prototype.getFieldData = function(){
-    var field = H5P.cloneObject(this.field);
-
-    // use editor translation for description
-    field.description = H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'guiDescription'); // TODO Use description from semantics?
-
-    // don't render label
-    field.label = undefined;
-
-    return field;
   };
 
   /**
@@ -770,7 +758,6 @@ H5PEditor.language['H5PEditor.ImageHotspotQuestion'] = {
     done: 'Done',
     remove: 'Remove hotspot',
     rectangle: 'Create rectangle',
-    circle: 'Create circle',
-    guiDescription: 'Drag and drop the desired figure from the toolbar to create a new hotspot. Double-click to edit an existing hotspot. Drag the hotspot to move it. Pull the resize handler in the lower right corner to resize.'
+    circle: 'Create circle'
   }
 };

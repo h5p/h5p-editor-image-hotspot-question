@@ -108,6 +108,10 @@
 .h5p-image-hotspot-question-editor .image-hotspot-gui {
   position: relative;
   display: block;
+  border-right: solid 1px #d2d2d2;
+  border-bottom: solid 1px #d2d2d2;
+  border-left: solid 1px #d2d2d2;
+  background-color: white;
 }
 
 .h5p-image-hotspot-question-image {
@@ -130,10 +134,6 @@
 .h5p-image-hotspot-question-editor .h5peditor-fluid-dialog.outside-side {
   margin: 0 1em;
   vertical-align: top;
-}
-
-.h5p-image-hotspot-question-editor .h5peditor-fluid-dialog.outside-underneath {
-  margin: 1em 0;
 }
 
 .h5p-image-hotspot-question-editor .h5peditor-fluid-dialog.inside {

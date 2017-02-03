@@ -81,6 +81,32 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
      */
     this.elementFields = H5P.cloneObject(field.fields[1].field.fields[0].fields, true);
 
+    // When wizard changes step
+    parent.on('stepChanged', function (event) {
+      that.currentTabIndex = event.data.id;
+
+      var $prevButton = $('.nav-button-prev');
+      var $nextButton = $('.nav-button-next');
+
+      if (that.currentTabIndex > 0) {
+        $prevButton.attr('data-id', that.currentTabIndex - 1);
+        $prevButton.find('span:last').text($('.h5peditor-tab-li a[data-id=' + (that.currentTabIndex - 1) + '] .field-name').text())
+        $prevButton.show();
+      }
+      else {
+        $prevButton.hide();
+      }
+
+      if (that.currentTabIndex < $('.h5peditor-tabs').children().length - 1) {
+        $nextButton.attr('data-id', that.currentTabIndex + 1);
+        $nextButton.find('span:last').text($('.h5peditor-tab-li a[data-id=' + (that.currentTabIndex + 1) + '] .field-name').text())
+        $nextButton.show();
+      }
+      else {
+        $nextButton.hide();
+      }
+    });
+
     this.initQuestion();
   }
 

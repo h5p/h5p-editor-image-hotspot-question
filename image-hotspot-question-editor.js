@@ -21,6 +21,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Function} setValue
    */
   function ImageHotspotQuestionEditor(parent, field, params, setValue) {
+    that = this;
 
     // Set default params
     params = $.extend(true, {
@@ -90,7 +91,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
       if (that.currentTabIndex > 0) {
         $prevButton.attr('data-id', that.currentTabIndex - 1);
-        $prevButton.find('span:last').text($('.h5peditor-tab-li a[data-id=' + (that.currentTabIndex - 1) + '] .field-name').text())
+        $prevButton.find('span.nav-button-label').text($('.h5peditor-tab-li a[data-id=' + (that.currentTabIndex - 1) + '] .field-name').text())
         $prevButton.show();
       }
       else {
@@ -99,7 +100,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
       if (that.currentTabIndex < $('.h5peditor-tabs').children().length - 1) {
         $nextButton.attr('data-id', that.currentTabIndex + 1);
-        $nextButton.find('span:last').text($('.h5peditor-tab-li a[data-id=' + (that.currentTabIndex + 1) + '] .field-name').text())
+        $nextButton.find('span.nav-button-label').text($('.h5peditor-tab-li a[data-id=' + (that.currentTabIndex + 1) + '] .field-name').text())
         $nextButton.show();
       }
       else {

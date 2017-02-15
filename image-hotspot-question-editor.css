@@ -247,5 +247,9 @@
 }
 
 .h5p-imagehotspotquestion-editor .field.wizard .h5peditor-tab-backgroundimagesettings:before {
-  content: '\f03e';
+  content: '\e913';
+}
+
+.h5p-imagehotspotquestion-editor .field.wizard .h5peditor-tab-hotspotsettings:before {
+  content: '\e915';
 }

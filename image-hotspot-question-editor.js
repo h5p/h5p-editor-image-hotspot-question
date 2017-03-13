@@ -80,11 +80,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
      */
     this.elementFields = H5P.cloneObject(field.fields[1].field.fields[0].fields, true);
 
-    // When wizard changes step
-    parent.on('stepChanged', function (event) {
-      this.updateWizardIconsText(event.data.id);
-    });
-
     this.initQuestion();
   }
 

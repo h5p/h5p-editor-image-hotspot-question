@@ -21,8 +21,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Function} setValue
    */
   function ImageHotspotQuestionEditor(parent, field, params, setValue) {
-    that = this;
-
     // Set default params
     params = $.extend(true, {
       hotspot:[]

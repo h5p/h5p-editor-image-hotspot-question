@@ -234,3 +234,22 @@
 .h5p-image-hotspot-question-editor .disabling-overlay.hidden {
   display: none;
 }
+
+.h5p-imagehotspotquestion-editor .h5peditor-form {
+  border-radius: 0;
+  padding: 0;
+  background: #fff;
+}
+
+.h5p-imagehotspotquestion-editor .field.wizard > .h5peditor-panes > .group > .content,
+.h5p-image-hotspot-question-editor.content {
+  border: 0;
+}
+
+.h5p-imagehotspotquestion-editor .field.wizard .h5peditor-tab-backgroundimagesettings:before {
+  content: '\e913';
+}
+
+.h5p-imagehotspotquestion-editor .field.wizard .h5peditor-tab-hotspotsettings:before {
+  content: '\e915';
+}

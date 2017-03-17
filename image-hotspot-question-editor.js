@@ -75,6 +75,12 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.noneSelectedFeedbackSemantics = [H5P.cloneObject(field.fields[2], true)];
 
     /**
+     * Feedback semantics for choice to display feedback as popup.
+     * @type {*[]}
+     */
+    this.showFeedbackAsPopupSemantics = [H5P.cloneObject(field.fields[3], true)];
+
+    /**
      * Hotspot settings semantics, used to make the popup on hotspots.
      * @type {Object|Array}
      */
@@ -165,6 +171,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       '  <div class="task-description"></div>' +
          H5PEditor.createFieldMarkup(this.field, content) +
       '  <div class="none-selected-feedback"></div>' +
+      '  <div class="show-feedback-as-popup"></div>' +
       '</div>';
 
     /**
@@ -194,6 +201,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     var $taskDescription = $('.task-description', this.$editor);
     var $dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
     var $noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
+    var $showFeedbackAsPopup = $('.show-feedback-as-popup', this.$editor);
 
     this.createToolbar($dnbWrapper);
     this.createDialog();
@@ -207,6 +215,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     // Create semantics
     H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, $taskDescription, this);
     H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, $noneSelectedFeedback, this);
+    H5PEditor.processSemanticsChunk(this.showFeedbackAsPopupSemantics, this.params, $showFeedbackAsPopup, this);
   };
 
   /**

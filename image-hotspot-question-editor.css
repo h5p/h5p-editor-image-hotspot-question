@@ -3,7 +3,8 @@
   margin-bottom: 1em;
 }
 
-.h5p-image-hotspot-question-editor .none-selected-feedback {
+.h5p-image-hotspot-question-editor .none-selected-feedback,
+.h5p-image-hotspot-question-editor .show-feedback-as-popup {
   margin-top: 1em;
 }
 

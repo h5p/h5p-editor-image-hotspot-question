@@ -146,6 +146,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   ImageHotspotQuestionEditor.prototype.appendTo = function ($wrapper) {
 
     this.$editor.appendTo($wrapper);
+    this.$editor.prepend(this.noImageSourceMessage(this.parent));
   };
 
   /**
@@ -161,7 +162,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     var html =
       '<div class="h5p-image-hotspot-question-editor content">' +
-      '  <div class="error-message">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage') + '</div>' +
       '  <div class="task-description"></div>' +
          H5PEditor.createFieldMarkup(this.field, content) +
       '  <div class="none-selected-feedback"></div>' +
@@ -207,6 +207,42 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     // Create semantics
     H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, $taskDescription, this);
     H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, $noneSelectedFeedback, this);
+  };
+
+  /**
+   * Create HTML for the no image source message.
+   *
+   * @param {Object} parent
+   * @returns {jQuery}
+   */
+  ImageHotspotQuestionEditor.prototype.noImageSourceMessage = function (parent) {
+      var $html = $('<div/>', {
+        class: 'error-message'
+      });
+
+      var $icon = $('<div/>', {
+        'class': 'h5p-no-image-icon'
+      }).appendTo($html);
+
+      var $title = $('<div/>', {
+        'class': 'h5p-no-image-title',
+        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImageTitle')
+      }).appendTo($html);
+
+      var $text = $('<div/>', {
+        'class': 'h5p-no-image-text',
+        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage')
+      }).appendTo($html);
+
+      var $button = $('<button/>', {
+        'class': 'h5p-no-image-button h5p-joubelui-button',
+        'type': 'button',
+        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'back')
+      }).on('click', function () {
+        parent.$tabs[0].click()
+      }).appendTo($html);
+
+    return $html;
   };
 
   /**
@@ -762,8 +798,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 // Default english translations
 H5PEditor.language['H5PEditor.ImageHotspotQuestion'] = {
   libraryStrings: {
-    noImage: 'You have not selected an image.',
+    noImage: 'You must select a background image before adding hotspots.',
+    noImageTitle: 'No Background Image',
     done: 'Done',
+    back: 'Back',
     remove: 'Remove hotspot',
     rectangle: 'Create rectangle',
     circle: 'Create circle'

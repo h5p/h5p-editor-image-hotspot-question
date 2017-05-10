@@ -476,6 +476,15 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       element.$element.appendTo(self.$gui);
     });
 
+    dnbElement.contextMenu.on('contextMenuSendToBack', function () {
+      // Add to bottom
+      var oldZ = self.params.hotspot.indexOf(elementParams);
+      self.params.hotspot.unshift(self.params.hotspot.splice(oldZ, 1)[0]);
+
+      // Update visuals
+      element.$element.prependTo(self.$gui);
+    });
+
     this.elements[index] = element;
     return element.$element;
   };

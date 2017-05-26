@@ -4,7 +4,8 @@
 }
 
 .h5p-image-hotspot-question-editor .none-selected-feedback,
-.h5p-image-hotspot-question-editor .show-feedback-as-popup {
+.h5p-image-hotspot-question-editor .show-feedback-as-popup,
+.h5p-image-hotspot-question-editor .feedback-translations {
   margin-top: 1em;
 }
 

@@ -81,6 +81,12 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     this.showFeedbackAsPopupSemantics = [H5P.cloneObject(field.fields[3], true)];
 
     /**
+     * Feedback semantics translations.
+     * @type {*[]}
+     */
+    this.feedbackTranslations = [H5P.cloneObject(field.fields[4], true)];
+
+    /**
      * Hotspot settings semantics, used to make the popup on hotspots.
      * @type {Object|Array}
      */
@@ -153,6 +159,15 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     this.$editor.appendTo($wrapper);
     this.$editor.prepend(this.noImageSourceMessage(this.parent));
+    var $feedbackTranslations = $('.feedback-translations .h5peditor-single ', this.$editor);
+
+    if ($feedbackTranslations !== null) {
+      var $inputField = $feedbackTranslations.find('.field input');
+
+      if ($inputField != null && $inputField.val() != null) {
+        $inputField.val(this.feedbackTranslations[0].fields[0].default);
+      }
+    }
   };
 
   /**
@@ -172,6 +187,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
          H5PEditor.createFieldMarkup(this.field, content) +
       '  <div class="none-selected-feedback"></div>' +
       '  <div class="show-feedback-as-popup"></div>' +
+      '  <div class="feedback-translations"></div>' +
       '</div>';
 
     /**
@@ -202,6 +218,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     var $dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
     var $noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
     var $showFeedbackAsPopup = $('.show-feedback-as-popup', this.$editor);
+    var $feedbackTranslations = $('.feedback-translations', this.$editor);
 
     this.createToolbar($dnbWrapper);
     this.createDialog();
@@ -216,6 +233,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, $taskDescription, this);
     H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, $noneSelectedFeedback, this);
     H5PEditor.processSemanticsChunk(this.showFeedbackAsPopupSemantics, this.params, $showFeedbackAsPopup, this);
+    H5PEditor.processSemanticsChunk(this.feedbackTranslations, this.params, $feedbackTranslations, this);
   };
 
   /**

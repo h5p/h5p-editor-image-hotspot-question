@@ -247,21 +247,21 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
         class: 'error-message'
       });
 
-      var $icon = $('<div/>', {
+      $('<div/>', {
         'class': 'h5p-no-image-icon'
       }).appendTo($html);
 
-      var $title = $('<div/>', {
+      $('<div/>', {
         'class': 'h5p-no-image-title',
         'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImageTitle')
       }).appendTo($html);
 
-      var $text = $('<div/>', {
+      $('<div/>', {
         'class': 'h5p-no-image-text',
         'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage')
       }).appendTo($html);
 
-      var $button = $('<button/>', {
+      $('<button/>', {
         'class': 'h5p-no-image-button h5p-joubelui-button',
         'type': 'button',
         'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'back')

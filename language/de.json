@@ -2,10 +2,10 @@
   "libraryStrings":{
     "noImage":"noImage",
     "noImageTitle":"noImageTitle",
-    "done":"done",
-    "back":"back",
-    "remove":"remove",
-    "rectangle":"rectangle",
-    "circle":"circle"
+    "done":"fertig",
+    "back":"zurück",
+    "remove":"entfernen",
+    "rectangle":"Rechteck",
+    "circle":"Kreis"
   }
 }

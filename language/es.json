@@ -1,11 +1,11 @@
 {
   "libraryStrings":{
-    "noImage":"noImage",
-    "noImageTitle":"noImageTitle",
-    "done":"done",
-    "back":"back",
-    "remove":"remove",
-    "rectangle":"rectangle",
-    "circle":"circle"
+    "noImage":"sin imagen",
+    "noImageTitle":"titulo sin imagen",
+    "done":"hecho",
+    "back":"atrás",
+    "remove":"eliminar",
+    "rectangle":"rectángulo",
+    "circle":"círculo"
   }
 }

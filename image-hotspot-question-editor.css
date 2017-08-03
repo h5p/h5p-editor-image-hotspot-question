@@ -3,7 +3,9 @@
   margin-bottom: 1em;
 }
 
-.h5p-image-hotspot-question-editor .none-selected-feedback {
+.h5p-image-hotspot-question-editor .none-selected-feedback,
+.h5p-image-hotspot-question-editor .show-feedback-as-popup,
+.h5p-image-hotspot-question-editor .feedback-translations {
   margin-top: 1em;
 }
 
@@ -216,11 +218,51 @@
 
 .h5p-image-hotspot-question-editor.no-image .error-message {
   display: block;
+  background-color: black;
+  color: white;
+  text-align: center;
   padding: 1em;
 }
 
 .h5p-image-hotspot-question-editor .error-message {
   display: none;
+}
+
+.h5p-image-hotspot-question-editor .error-message .h5p-no-image-icon {
+  width: 8em;
+  height: 8em;
+  margin: 0 auto;
+  background-image: url('images/no-image-source.svg');
+  background-repeat: no-repeat;
+}
+
+.h5p-image-hotspot-question-editor .error-message .h5p-no-image-title {
+  font-size: 1.7em;
+}
+
+.h5p-image-hotspot-question-editor .error-message .h5p-no-image-text {
+  font-size: 1em;
+}
+
+.h5p-image-hotspot-question-editor .error-message .h5p-no-image-button {
+  margin: 1em 0 1.5em 0;
+  padding: 0.8em 1.8em;
+  font-weight: 100;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+.h5p-image-hotspot-question-editor .error-message .h5p-no-image-button:before {
+  font-family: 'h5pFontIcons';
+  content: "\e910";
+  -webkit-backface-visibility: hidden;
+  -ms-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  display: block;
+  float: left;
+  padding: 0;
+  font-size: 1.2em;
 }
 
 /* Overlay for disabling clicks */
@@ -233,4 +275,23 @@
 
 .h5p-image-hotspot-question-editor .disabling-overlay.hidden {
   display: none;
+}
+
+.h5p-imagehotspotquestion-editor .h5peditor-form {
+  border-radius: 0;
+  padding: 0;
+  background: #fff;
+}
+
+.h5p-imagehotspotquestion-editor .field.wizard > .h5peditor-panes > .group > .content,
+.h5p-image-hotspot-question-editor.content {
+  border: 0;
+}
+
+.h5p-imagehotspotquestion-editor .field.wizard .h5peditor-tab-backgroundimagesettings:before {
+  content: '\e913';
+}
+
+.h5p-imagehotspotquestion-editor .field.wizard .h5peditor-tab-hotspotsettings:before {
+  content: '\e915';
 }

@@ -21,7 +21,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @param {Function} setValue
    */
   function ImageHotspotQuestionEditor(parent, field, params, setValue) {
-
     // Set default params
     params = $.extend(true, {
       hotspot:[]
@@ -74,6 +73,18 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
      * @type {*[]}
      */
     this.noneSelectedFeedbackSemantics = [H5P.cloneObject(field.fields[2], true)];
+
+    /**
+     * Feedback semantics for choice to display feedback as popup.
+     * @type {*[]}
+     */
+    this.showFeedbackAsPopupSemantics = [H5P.cloneObject(field.fields[3], true)];
+
+    /**
+     * Feedback semantics translations.
+     * @type {*[]}
+     */
+    this.feedbackTranslations = [H5P.cloneObject(field.fields[4], true)];
 
     /**
      * Hotspot settings semantics, used to make the popup on hotspots.
@@ -147,6 +158,16 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   ImageHotspotQuestionEditor.prototype.appendTo = function ($wrapper) {
 
     this.$editor.appendTo($wrapper);
+    this.$editor.prepend(this.noImageSourceMessage(this.parent));
+    var $feedbackTranslations = $('.feedback-translations .h5peditor-single ', this.$editor);
+
+    if ($feedbackTranslations !== null) {
+      var $inputField = $feedbackTranslations.find('.field input');
+
+      if ($inputField != null && $inputField.val() != null) {
+        $inputField.val(this.feedbackTranslations[0].fields[0].default);
+      }
+    }
   };
 
   /**
@@ -162,10 +183,11 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
     var html =
       '<div class="h5p-image-hotspot-question-editor content">' +
-      '  <div class="error-message">' + H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage') + '</div>' +
       '  <div class="task-description"></div>' +
          H5PEditor.createFieldMarkup(this.field, content) +
       '  <div class="none-selected-feedback"></div>' +
+      '  <div class="show-feedback-as-popup"></div>' +
+      '  <div class="feedback-translations"></div>' +
       '</div>';
 
     /**
@@ -195,6 +217,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     var $taskDescription = $('.task-description', this.$editor);
     var $dnbWrapper = $('.image-hotspot-dnb-wrapper', this.$editor);
     var $noneSelectedFeedback = $('.none-selected-feedback', this.$editor);
+    var $showFeedbackAsPopup = $('.show-feedback-as-popup', this.$editor);
+    var $feedbackTranslations = $('.feedback-translations', this.$editor);
 
     this.createToolbar($dnbWrapper);
     this.createDialog();
@@ -208,6 +232,44 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     // Create semantics
     H5PEditor.processSemanticsChunk(this.taskDescriptionSemantics, this.params, $taskDescription, this);
     H5PEditor.processSemanticsChunk(this.noneSelectedFeedbackSemantics, this.params, $noneSelectedFeedback, this);
+    H5PEditor.processSemanticsChunk(this.showFeedbackAsPopupSemantics, this.params, $showFeedbackAsPopup, this);
+    H5PEditor.processSemanticsChunk(this.feedbackTranslations, this.params, $feedbackTranslations, this);
+  };
+
+  /**
+   * Create HTML for the no image source message.
+   *
+   * @param {Object} parent
+   * @returns {jQuery}
+   */
+  ImageHotspotQuestionEditor.prototype.noImageSourceMessage = function (parent) {
+      var $html = $('<div/>', {
+        class: 'error-message'
+      });
+
+      $('<div/>', {
+        'class': 'h5p-no-image-icon'
+      }).appendTo($html);
+
+      $('<div/>', {
+        'class': 'h5p-no-image-title',
+        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImageTitle')
+      }).appendTo($html);
+
+      $('<div/>', {
+        'class': 'h5p-no-image-text',
+        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage')
+      }).appendTo($html);
+
+      $('<button/>', {
+        'class': 'h5p-no-image-button h5p-joubelui-button',
+        'type': 'button',
+        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'back')
+      }).on('click', function () {
+        parent.$tabs[0].click()
+      }).appendTo($html);
+
+    return $html;
   };
 
   /**
@@ -466,6 +528,15 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
       // Update visuals
       element.$element.appendTo(self.$gui);
+    });
+
+    dnbElement.contextMenu.on('contextMenuSendToBack', function () {
+      // Add to bottom
+      var oldZ = self.params.hotspot.indexOf(elementParams);
+      self.params.hotspot.unshift(self.params.hotspot.splice(oldZ, 1)[0]);
+
+      // Update visuals
+      element.$element.prependTo(self.$gui);
     });
 
     this.elements[index] = element;
@@ -754,8 +825,10 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 // Default english translations
 H5PEditor.language['H5PEditor.ImageHotspotQuestion'] = {
   libraryStrings: {
-    noImage: 'You have not selected an image.',
+    noImage: 'You must select a background image before adding hotspots.',
+    noImageTitle: 'No Background Image',
     done: 'Done',
+    back: 'Back',
     remove: 'Remove hotspot',
     rectangle: 'Create rectangle',
     circle: 'Create circle'

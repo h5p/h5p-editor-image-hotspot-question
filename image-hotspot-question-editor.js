@@ -266,7 +266,7 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
         'type': 'button',
         'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'back')
       }).on('click', function () {
-        parent.$tabs[0].click()
+        parent.$tabs[0].click();
       }).appendTo($html);
 
     return $html;

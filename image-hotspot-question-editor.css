@@ -9,6 +9,10 @@
   margin-top: 1em;
 }
 
+.field-name-imageHotspotQuestion > .h5p-editor-flex-wrapper {
+   display: none;
+ }
+
 /* Toolbar styling */
 .h5p-image-hotspot-question-editor .image-hotspot-dnb-wrapper {
   display: block;
@@ -298,7 +302,7 @@
 
 /* style metadata widgets */
 .h5p-imagehotspotquestion-editor .tree > .field-name-title.text {
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   margin-top: 0;
 }
 

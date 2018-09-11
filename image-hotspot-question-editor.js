@@ -341,7 +341,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     }
 
     // Activate toolbar, add buttons and attach it to $wrapper
-    this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui, this.$guiWrapper);
+    this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui, this.$guiWrapper, {
+      enableCopyPaste: false
+    });
 
     // Must set containerEm
     self.toolbar.dnr.setContainerEm(parseFloat(self.$gui.css('font-size')));
@@ -552,7 +554,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   ImageHotspotQuestionEditor.prototype.ready = function (ready) {
     if (this.passReadies) {
       this.parent.ready(ready);
-    } else {
+    }
+    else {
       this.readies.push(ready);
     }
   };
@@ -762,8 +765,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       this.populateQuestion();
 
       this.toolbar.blurAll();
-
-    } else {
+    }
+    else {
       // Remove image and display error message
       if (this.$image) {
         this.$image.remove();

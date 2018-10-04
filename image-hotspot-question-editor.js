@@ -824,16 +824,3 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
   return ImageHotspotQuestionEditor;
 }(H5P.jQuery));
-
-// Default english translations
-H5PEditor.language['H5PEditor.ImageHotspotQuestion'] = {
-  libraryStrings: {
-    noImage: 'You must select a background image before adding hotspots.',
-    noImageTitle: 'No Background Image',
-    done: 'Done',
-    back: 'Back',
-    remove: 'Remove hotspot',
-    rectangle: 'Create rectangle',
-    circle: 'Create circle'
-  }
-};

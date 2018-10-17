@@ -1,11 +1,11 @@
 {
   "libraryStrings": {
-    "noImage": "You must select a background image before adding hotspots.",
-    "noImageTitle": "No Background Image",
-    "done": "Done",
-    "back": "Back",
-    "remove": "Remove hotspot",
-    "rectangle": "Create rectangle",
-    "circle": "Create circle"
+    "noImage": "Odak Noktaları eklemeden önce bir arkapaln resmi secmelisin.",
+    "noImageTitle": "Arkaplan Resmi Yok",
+    "done": "Tamamlandı",
+    "back": "Geri",
+    "remove": "Odak Noktasını kaldır",
+    "rectangle": "Dikdörtgen oluştur",
+    "circle": "Yuvarlak oluştur"
   }
 }

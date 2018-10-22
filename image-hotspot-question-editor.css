@@ -301,7 +301,7 @@
 }
 
 /* style metadata widgets */
-.h5p-imagehotspotquestion-editor .tree > .field-name-title.text {
+.h5p-imagehotspotquestion-editor .tree > .field-name-extraTitle.text {
   padding: 20px 20px 0 20px;
   margin-top: 0;
 }

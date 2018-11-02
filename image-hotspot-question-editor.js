@@ -243,31 +243,31 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
    * @returns {jQuery}
    */
   ImageHotspotQuestionEditor.prototype.noImageSourceMessage = function (parent) {
-      var $html = $('<div/>', {
-        class: 'error-message'
-      });
+    var $html = $('<div/>', {
+      class: 'error-message'
+    });
 
-      $('<div/>', {
-        'class': 'h5p-no-image-icon'
-      }).appendTo($html);
+    $('<div/>', {
+      'class': 'h5p-no-image-icon'
+    }).appendTo($html);
 
-      $('<div/>', {
-        'class': 'h5p-no-image-title',
-        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImageTitle')
-      }).appendTo($html);
+    $('<div/>', {
+      'class': 'h5p-no-image-title',
+      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImageTitle')
+    }).appendTo($html);
 
-      $('<div/>', {
-        'class': 'h5p-no-image-text',
-        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage')
-      }).appendTo($html);
+    $('<div/>', {
+      'class': 'h5p-no-image-text',
+      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'noImage')
+    }).appendTo($html);
 
-      $('<button/>', {
-        'class': 'h5p-no-image-button h5p-joubelui-button',
-        'type': 'button',
-        'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'back')
-      }).on('click', function () {
-        parent.$tabs[0].click();
-      }).appendTo($html);
+    $('<button/>', {
+      'class': 'h5p-no-image-button h5p-joubelui-button',
+      'type': 'button',
+      'text': H5PEditor.t('H5PEditor.ImageHotspotQuestion', 'back')
+    }).on('click', function () {
+      parent.$tabs[0].click();
+    }).appendTo($html);
 
     return $html;
   };
@@ -341,7 +341,9 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
     }
 
     // Activate toolbar, add buttons and attach it to $wrapper
-    this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui, this.$guiWrapper);
+    this.toolbar = new H5P.DragNBar(this.createButtons(), this.$gui, this.$guiWrapper, {
+      enableCopyPaste: false
+    });
 
     // Must set containerEm
     self.toolbar.dnr.setContainerEm(parseFloat(self.$gui.css('font-size')));
@@ -552,7 +554,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
   ImageHotspotQuestionEditor.prototype.ready = function (ready) {
     if (this.passReadies) {
       this.parent.ready(ready);
-    } else {
+    }
+    else {
       this.readies.push(ready);
     }
   };
@@ -762,8 +765,8 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       this.populateQuestion();
 
       this.toolbar.blurAll();
-
-    } else {
+    }
+    else {
       // Remove image and display error message
       if (this.$image) {
         this.$image.remove();
@@ -821,16 +824,3 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
 
   return ImageHotspotQuestionEditor;
 }(H5P.jQuery));
-
-// Default english translations
-H5PEditor.language['H5PEditor.ImageHotspotQuestion'] = {
-  libraryStrings: {
-    noImage: 'You must select a background image before adding hotspots.',
-    noImageTitle: 'No Background Image',
-    done: 'Done',
-    back: 'Back',
-    remove: 'Remove hotspot',
-    rectangle: 'Create rectangle',
-    circle: 'Create circle'
-  }
-};

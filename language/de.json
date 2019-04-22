@@ -1,8 +1,8 @@
 {
   "libraryStrings": {
-    "noImage": "Es wurde kein Bild ausgewählt.",
-    "noImageTitle": "No Background Image",
-    "done": "Erledigt",
+    "noImage": "Du musst ein Bild auswählen, um Hotspots hinzuzufügen.",
+    "noImageTitle": "Kein Hintergrundbild",
+    "done": "Fertig",
     "back": "Zurück",
     "remove": "Hotspot entfernen",
     "rectangle": "Rechteck erstellen",

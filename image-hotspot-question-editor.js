@@ -796,14 +796,6 @@ H5PEditor.widgets.imageHotspotQuestion = H5PEditor.ImageHotspotQuestion = (funct
       return;
     }
 
-    // Scale image down if it is too wide
-    if (this.$image.get(0).naturalWidth > this.$editor.width()) {
-      this.$image.css('width', '100%');
-    }
-    else {
-      this.$image.css('width', '');
-    }
-
     // Set containerEm
     this.toolbar.dnr.setContainerEm(parseFloat(this.$gui.css('font-size')));
     this.toolbar.blurAll();

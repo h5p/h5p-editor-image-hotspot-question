@@ -130,6 +130,7 @@
 .h5p-image-hotspot-question-image {
   display: block;
   min-width: 28em;
+  max-width: 100%;
   height: auto;
   pointer-events: none;
 }

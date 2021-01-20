@@ -1,9 +1,9 @@
 {
   "libraryStrings":{
     "noImage":"Je moet een afbeelding selecteren voordat je het doelgebied kan plaatsen.",
-    "noImageTitle":"No Background Image",
+    "noImageTitle":"Geen achtergrondafbeelding",
     "done":"Gedaan",
-    "back":"Back",
+    "back":"Terug",
     "remove":"Verwijder doelgebied",
     "rectangle":"Maak een rechthoek",
     "circle":"Maak een cirkel"

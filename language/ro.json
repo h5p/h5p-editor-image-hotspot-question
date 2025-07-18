@@ -1,0 +1,11 @@
+{
+  "libraryStrings": {
+    "noImage": "Trebuie să selectați o imagine de fundal înainte de a adăuga puncte active.",
+    "noImageTitle": "Nicio imagine de fundal",
+    "done": "Gata",
+    "back": "Înapoi",
+    "remove": "Elimină punctul activ",
+    "rectangle": "Creează dreptunghi",
+    "circle": "Creează cerc"
+  }
+}
